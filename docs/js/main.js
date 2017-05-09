@@ -17,7 +17,7 @@ var gameobject = (function () {
 var Wheel = (function (_super) {
     __extends(Wheel, _super);
     function Wheel(superHTMLelement, x, y) {
-        return _super.call(this, superHTMLelement, "wheel", x, y) || this;
+        _super.call(this, superHTMLelement, "wheel", x, y);
     }
     Wheel.prototype.turn = function (speed) {
         this.div.style.transform += "rotate(" + speed * 10 + "deg)";
@@ -27,21 +27,21 @@ var Wheel = (function (_super) {
 var Car = (function (_super) {
     __extends(Car, _super);
     function Car(supergame) {
-        var _this = _super.call(this, document.getElementById("container"), "car", 0, 215) || this;
-        _this.braking = false;
-        _this.game = supergame;
-        _this.speed = 1.35;
-        _this.wheel1 = new Wheel(_this.div, 20, 35);
-        _this.wheel2 = new Wheel(_this.div, 105, 35);
+        var _this = this;
+        _super.call(this, document.getElementById("container"), "car", 0, 215);
+        this.braking = false;
+        this.game = supergame;
+        this.speed = 1.33;
+        this.wheel1 = new Wheel(this.div, 20, 35);
+        this.wheel2 = new Wheel(this.div, 105, 35);
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
-        return _this;
     }
     Car.prototype.move = function (rock) {
         if (this.braking) {
             this.speed *= 0.9;
         }
         else {
-            this.speed *= 1.02;
+            this.speed *= 1.005;
         }
         if (this.x > 363) {
             this.speed = 0;
@@ -73,12 +73,11 @@ var Car = (function (_super) {
 var Rock = (function (_super) {
     __extends(Rock, _super);
     function Rock(supergame) {
-        var _this = _super.call(this, document.getElementById("container"), "rock", 508, 208) || this;
-        _this.ismoving = false;
-        _this.speedX = 0;
-        _this.speedY = 0;
-        _this.game = supergame;
-        return _this;
+        _super.call(this, document.getElementById("container"), "rock", 508, 208);
+        this.ismoving = false;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.game = supergame;
     }
     Rock.prototype.move = function () {
         if (this.ismoving == false) {

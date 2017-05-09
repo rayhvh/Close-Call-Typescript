@@ -16,7 +16,7 @@ class Car extends gameobject {
         super(document.getElementById("container"), "car", 0, 215);
 
         this.game = supergame;
-        this.speed = 1.35;
+        this.speed = 1.33;
 
         this.wheel1 = new Wheel(this.div, 20, 35);
         this.wheel2 = new Wheel(this.div, 105, 35);
@@ -30,7 +30,7 @@ class Car extends gameobject {
             this.speed *= 0.9;
         }
         else {
-            this.speed *= 1.02;
+            this.speed *= 1.005;
         }
 
         // hier kijken of de x waarde hoger is dan de x van de rots (335)
