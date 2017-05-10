@@ -5,43 +5,38 @@
 
 class Car extends gameobject {
 
-    private speed: number;
-    private braking: boolean = false;
-    private game: Game;
+    public speed: number;
+    private isBraking: boolean = false;
+    private isHalted:boolean = false;
+    private height: number = 45;
+    private width: number = 145;
 
     wheel1: Wheel;
     wheel2: Wheel;
 
-    constructor(supergame: Game) {
-        super(document.getElementById("container"), "car", 0, 215);
+    constructor(x: number, y: number, speed: number) {
+        super(document.getElementById("container"), "car", x, y);
 
-        this.game = supergame;
-        this.speed = 1.33;
+
+        this.speed = 1+ speed;
+        console.log(this.speed);
 
         this.wheel1 = new Wheel(this.div, 20, 35);
         this.wheel2 = new Wheel(this.div, 105, 35);
 
-        window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e));
+        this.div.addEventListener("click",(e:MouseEvent) => this.onKeyDown(e));
 
     }
 
-    public move(rock: Rock): void {
-        if (this.braking) {
+    public move(): void {
+        if (this.isBraking) {
             this.speed *= 0.9;
         }
         else {
-            this.speed *= 1.005;
+            this.speed *= 1.002;
         }
 
-        // hier kijken of de x waarde hoger is dan de x van de rots (335)
-        //
-        if (this.x > 363)//508 rots.- 145px car.
-        {
-            this.speed = 0;
-            rock.move();
-
-        }
-        else if (this.speed < 1) {
+        if (this.speed < 1) { // kan ook door collision 
             this.halted();
         }
         this.wheel1.turn(this.speed);
@@ -55,19 +50,22 @@ class Car extends gameobject {
     }
 
 
-    private onKeyDown(event: KeyboardEvent): void {
-        this.braking = true;
+    private onKeyDown(event: MouseEvent): void {
+        this.isBraking = true;
     }
 
     private halted(): void {
-        let score = document.getElementById("score");
-        score.innerHTML = "Score : " + this.x;
-        setTimeout(() => {
-            if (score.innerHTML == "Score : " + this.x) {
-                this.game.showScore();
-            }
-        }, 100);
-
-
+        if(!this.isHalted){
+            this.isHalted = true;
+             let g: Game = Game.getInstance();
+             g.score += this.x;
+             g.addScore();
+        } 
     }
+
+    public getLocation() {
+        let location = { x: this.x, y: this.y, height: this.height, width: this.width };
+        return location;
+    }
+
 }

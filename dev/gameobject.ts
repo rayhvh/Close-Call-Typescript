@@ -7,7 +7,7 @@ abstract class gameobject
     constructor(targetElement:HTMLElement, htmlString:string, x:number, y:number){
 
         this.div = document.createElement(htmlString);
-        console.log(targetElement);
+      
         targetElement.appendChild(this.div);
         this.x = x;
         this.y = y;
